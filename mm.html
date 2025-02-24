@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>إدارة المتدربين</title>
+    <style>
+        body {font-family: Arial, sans-serif; margin: 20px; text-align: center;}
+        .container {max-width: 1200px; margin: auto;}
+        h1 {color: #007BFF; margin-bottom: 20px;}
+        form {background: #f4f4f4; padding: 20px; border-radius: 5px;}
+        .form-group {margin-bottom: 15px;}
+        input, button, select {padding: 8px; margin: 5px; width: 200px;}
+        table {width: 100%; border-collapse: collapse; margin-top: 20px;}
+        th, td {border: 1px solid #ddd; padding: 8px; text-align: center;}
+        th {background-color: #f2f2f2; color: #007BFF;}
+        button {background-color: #007BFF; color: white; border: none; cursor: pointer;}
+        button:hover {background-color: #0056b3;}
+        .error {color: red; font-weight: bold;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>إدارة المتدربين</h1>
+        <form id="studentForm">
+            <div class="form-group">
+                <input type="text" id="name" placeholder="الاسم" required>
+                <input type="text" id="academicNumber" placeholder="الرقم الأكاديمي" required>
+                <input type="text" id="idNumber" placeholder="رقم الهوية" required>
+                <input type="email" id="email" placeholder="الإيميل" required>
+            </div>
+            <div class="form-group">
+                <select id="specialization" required>
+                    <option value="">اختر التخصص</option>
+                    <option value="الإنشاءات المدنية">الإنشاءات المدنية</option>
+                    <option value="المساحة">المساحة</option>
+                    <option value="تقنية البرمجة وتطوير الويب">تقنية البرمجة وتطوير الويب</option>
+                    <option value="الأجهزة الطبية">الأجهزة الطبية</option>
+                    <option value="إدارة الفعاليات وتنظيم الحشود">إدارة الفعاليات وتنظيم الحشود</option>
+                </select>
+                <select id="level" required>
+                    <option value="">اختر المستوى</option>
+                    <option value="الأول">الأول</option>
+                    <option value="الثاني">الثاني</option>
+                    <option value="الثالث">الثالث</option>
+                    <option value="الرابع">الرابع</option>
+                    <option value="الخامس">الخامس</option>
+                    <option value="السادس">السادس</option>
+                    <option value="السابع">السابع</option>
+                    <option value="الثامن">الثامن</option>
+                    <option value="التدريب التعاوني">التدريب التعاوني</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="text" id="course1" placeholder="المقرر 1">
+                <input type="text" id="course2" placeholder="المقرر 2">
+                <input type="text" id="course3" placeholder="المقرر 3">
+                <input type="text" id="course4" placeholder="المقرر 4">
+            </div>
+            <button type="button" onclick="addStudent()">إضافة جديد</button>
+            <button type="button" onclick="saveStudents()">حفظ</button>
+            <button type="button" onclick="deleteSelected()">مسح المحدد</button>
+            <a href="results.html"><button type="button">إدخال النتائج</button></a>
+            <p id="errorMessage" class="error"></p>
+        </form>
+        <table id="studentsTable">
+            <thead>
+                <tr>
+                    <th>تحديد</th>
+                    <th>الاسم</th>
+                    <th>الرقم الأكاديمي</th>
+                    <th>رقم الهوية</th>
+                    <th>الإيميل</th>
+                    <th>التخصص</th>
+                    <th>المستوى</th>
+                    <th>المقرر 1</th>
+                    <th>المقرر 2</th>
+                    <th>المقرر 3</th>
+                    <th>المقرر 4</th>
+                    <th>الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="studentsBody"></tbody>
+        </table>
+    </div>
+
+    <script>
+        let students = JSON.parse(localStorage.getItem('students')) || [];
+        let editingId = null;
+
+        function renderStudents() {
+            const tbody = document.getElementById('studentsBody');
+            tbody.innerHTML = students.map((student, index) => `
+                <tr>
+                    <td><input type="checkbox" class="select-checkbox"></td>
+                    <td>${student.name}</td>
+                    <td>${student.academicNumber}</td>
+                    <td>${student.idNumber}</td>
+                    <td>${student.email}</td>
+                    <td>${student.specialization}</td>
+                    <td>${student.level}</td>
+                    <td>${student.course1}</td>
+                    <td>${student.course2}</td>
+                    <td>${student.course3}</td>
+                    <td>${student.course4}</td>
+                    <td>
+                        <button onclick="editStudent(${index})">تعديل</button>
+                        <button onclick="deleteStudent(${index})">حذف</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function isDuplicate(student) {
+            return students.some(s => 
+                s.academicNumber === student.academicNumber || 
+                s.idNumber === student.idNumber || 
+                s.email === student.email
+            );
+        }
+
+        function addStudent() {
+            const student = {
+                name: document.getElementById('name').value,
+                academicNumber: document.getElementById('academicNumber').value,
+                idNumber: document.getElementById('idNumber').value,
+                email: document.getElementById('email').value,
+                specialization: document.getElementById('specialization').value,
+                level: document.getElementById('level').value,
+                course1: document.getElementById('course1').value,
+                course2: document.getElementById('course2').value,
+                course3: document.getElementById('course3').value,
+                course4: document.getElementById('course4').value
+            };
+
+            if (isDuplicate(student) && editingId === null) {
+                document.getElementById('errorMessage').textContent = 'خطأ: البيانات مكررة! الرجاء تعديل البيانات.';
+                return;
+            } else {
+                document.getElementById('errorMessage').textContent = '';
+            }
+
+            if(editingId !== null) {
+                students[editingId] = student;
+                editingId = null;
+            } else {
+                students.push(student);
+            }
+            renderStudents();
+            clearForm();
+            saveStudents();
+        }
+
+        function saveStudents() {
+            localStorage.setItem('students', JSON.stringify(students));
+            alert('تم الحفظ بنجاح!');
+        }
+
+        function deleteStudent(index) {
+            students.splice(index, 1);
+            renderStudents();
+            saveStudents();
+        }
+
+        function deleteSelected() {
+            const checkboxes = document.querySelectorAll('.select-checkbox');
+            students = students.filter((_, index) => !checkboxes[index].checked);
+            renderStudents();
+            saveStudents();
+        }
+
+        function editStudent(index) {
+            const student = students[index];
+            document.getElementById('name').value = student.name;
+            document.getElementById('academicNumber').value = student.academicNumber;
+            document.getElementById('idNumber').value = student.idNumber;
+            document.getElementById('email').value = student.email;
+            document.getElementById('specialization').value = student.specialization;
+            document.getElementById('level').value = student.level;
+            document.getElementById('course1').value = student.course1;
+            document.getElementById('course2').value = student.course2;
+            document.getElementById('course3').value = student.course3;
+            document.getElementById('course4').value = student.course4;
+            editingId = index;
+        }
+
+        function clearForm() {
+            document.getElementById('studentForm').reset();
+        }
+
+        // التحميل الأولي
+        renderStudents();
+    </script>
+</body>
+</html>

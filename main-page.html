@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الصفحة الرئيسية</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f9;
+            text-align: center;
+            direction: rtl;
+        }
+
+        .header-cover {
+            width: 100%;
+            height: 300px; /* ارتفاع الغلاف */
+            background-image: url('https://files.oaiusercontent.com/file-3nfTpSRKcsPXyLF8w5MU5r?se=2025-02-20T21%3A29%3A03Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Da9d5337e-8f6b-4c92-ad49-b6846f7fe9ff.webp&sig=/mO%2B%2BX9FSGB25/qQ4TXWVglSdj4V97IMWt/A8Sarw/A%3D');
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #716553;
+            margin: 20px 0;
+            font-size: 32px;
+        }
+
+        .icons-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 50px;
+        }
+
+        .icon {
+            text-align: center;
+            width: 150px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .icon:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .icon img {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 15px;
+        }
+
+        .icon p {
+            color: #716553;
+            font-size: 16px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- غلاف الصفحة -->
+    <div class="header-cover"></div>
+
+    <h1>الصفحة الرئيسية</h1>
+
+    <div class="icons-container">
+        <!-- أيقونة القبول والتسجيل -->
+        <div class="icon" onclick="window.location.href='Basicsections.html'">
+            <img src="https://cdn-icons-png.flaticon.com/512/1828/1828395.png" alt="القبول والتسجيل">
+            <p>القبول والتسجيل</p>
+        </div>
+
+        <!-- أيقونة الإدارة المالية -->
+        <div class="icon" onclick="window.location.href='money.html'">
+            <img src="https://cdn-icons-png.flaticon.com/512/2510/2510727.png" alt="الإدارة المالية">
+            <p>الإدارة المالية</p>
+        </div>
+
+        <!-- أيقونة التقارير -->
+        <div class="icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/4486/4486185.png" alt="التقارير">
+            <p>التقارير</p>
+        </div>
+
+        <!-- أيقونة الخريجين -->
+        <div class="icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135773.png" alt="الخريجين">
+            <p>الخريجين</p>
+        </div>
+    </div>
+</body>
+</html>

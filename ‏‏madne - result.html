@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الإنشاءات المدنية</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f9;
+            text-align: center;
+            direction: rtl;
+        }
+
+        .header-cover {
+            width: 100%;
+            height: 300px;
+            background-image: url('https://i.imgur.com/Npchmdr.png');
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 20px;
+        }
+
+        .back-icon {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            background: white;
+            padding: 5px;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .back-icon img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .levels-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .level-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .level-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .level-image {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+
+        .registration-options {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+        }
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الإنشاءات المدنية</title>
+    <style>
+
+        .registration-btn {
+            background: white !important; /* تغيير الخلفية إلى أبيض */
+            color: #964b00 !important; /* تغيير لون النص إلى أزرق */
+            border: 2px solid #007BFF; /* إضافة حدود زرقاء */
+            padding: 8px 12px; /* تعديل الحشوة */
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease; /* إضافة انتقال لجميع الخصائص */
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+
+        .registration-btn:hover {
+            background:#b5651d !important; /* تغيير الخلفية عند التحويم */
+            color: white !important; /* تغيير لون النص عند التحويم */
+        }
+
+        .registration-options {
+            display: flex;
+            justify-content: center;
+            gap: 15px; /* إضافة مسافة بين الأزرار */
+            margin-top: 15px;
+        }
+
+        .registration-btn img {
+            width: 20px;
+            height: 20px;
+            filter: brightness(0) saturate(100%) invert(27%) sepia(96%) saturate(2036%) hue-rotate(202deg) brightness(93%) contrast(101%); /* تغيير لون الأيقونة إلى أزرق */
+        }
+
+        .registration-btn:hover img {
+            filter: brightness(0) invert(1); /* تغيير لون الأيقونة عند التحويم */
+        }
+    </style>
+</head>
+<body>
+    
+  
+</head>
+<body>
+    <!-- أيقونة العودة إلى صفحة تسجيل المقررات -->
+    <div class="back-icon" onclick="window.location.href='result.html'">
+        <img src="https://cdn-icons-png.flaticon.com/512/263/263115.png" alt="العودة إلى صفحة تسجيل المقررات">
+    </div>
+
+    <!-- غلاف الصفحة -->
+    <div class="header-cover"></div>
+    <!-- مستويات الدراسة -->
+    <div class="levels-container">
+        <!-- المستوى الأول -->
+        <div class="level-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/8068/8068013.png" alt="المستوى الأول" class="level-image">
+            <div class="registration-options">
+                <a href="‏‏results - mad-1.html" class="registration-btn">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="فردي">
+                    تسجيل نتائج
+                </a>
+             
+                </a>
+            </div>
+        </div>
+
+        <!-- المستوى الثاني -->
+        <div class="level-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/8068/8068070.png" alt="المستوى الثاني" class="level-image">
+            <div class="registration-options">
+                <a href="‏‏‏‏results - mad-2.html" class="registration-btn">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="فردي">
+                    تسجيل نتائج
+                </a>
+                
+                </a>
+            </div>
+        </div>
+
+        <!-- المستوى الثالث -->
+        <div class="level-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/8068/8068125.png" alt="المستوى الثالث" class="level-image">
+            <div class="registration-options">
+                <a href="‏‏results mad-3.html" class="registration-btn">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="فردي">
+                   تسجيل نتائج
+                </a>
+                
+                </a>
+
+                </a>
+            </div>
+        </div>
+
+        <!-- المستوى الرابع -->
+        <div class="level-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/8068/8068178.png" alt="المستوى الرابع" class="level-image">
+            <div class="registration-options">
+                <a href="‏‏results mad-4.html" class="registration-btn">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="فردي">
+                    تسجيل نتائج
+                </a>
+                
+                </a>
+
+            </div>
+        </div>
+
+        <!-- المستوى الخامس -->
+        <div class="level-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/8068/8068231.png" alt="المستوى الخامس" class="level-image">
+            <div class="registration-options">
+                <a href="‏‏results mad-5.html" class="registration-btn">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="فردي">
+                    تسجيل نتائج
+                </a>
+                
+                </a>
+
+            </div>
+        </div>
+
+        <!-- المستوى السادس -->
+        <div class="level-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/8068/8068286.png" alt="المستوى السادس" class="level-image">
+            <div class="registration-options">
+                <a href="‏‏results mad-6.html" class="registration-btn">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="فردي">
+                 تسجيل نتائج
+                </a>
+                
+                </a>
+
+            </div>
+        </div>
+
+        <!-- المستوى السابع -->
+        <div class="level-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/8068/8068340.png" alt="المستوى السابع" class="level-image">
+            <div class="registration-options">
+                <a href="‏‏results mad-7.html" class="registration-btn">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="فردي">
+                    تسجيل نتائج
+                </a>
+                
+                </a>
+
+            </div>
+        </div>
+
+        <!-- المستوى الثامن -->
+        <div class="level-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/8068/8068390.png" alt="المستوى الثامن" class="level-image">
+            <div class="registration-options">
+                <a href="‏‏results mad-8.html" class="registration-btn">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="فردي">
+                    تسجيل نتائج
+                </a>
+                
+                </a>
+
+            </div>
+        </div>
+
+        <!-- التدريب التعاوني -->
+        <div class="level-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/16841/16841540.png" alt="التدريب التعاوني" class="level-image">
+            <div class="registration-options">
+                <a href="‏‏results - mad-t.html" class="registration-btn">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="فردي">
+                   تسجيل نتائج
+                </a>
+                
+                </a>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>النتائج</title>
+   <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f9;
+            text-align: center;
+            direction: rtl;
+        }
+
+        .header-cover {
+            width: 100%;
+            height: 300px;
+            background-image: url('https://i.imgur.com/gyOrf6s.png'); /* تم تحديث الرابط هنا */
+                background-size: cover;
+            background-position: center;
+            margin-bottom: 20px;
+        }
+
+        .icons-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 50px;
+        }
+
+        .icon {
+            text-align: center;
+            width: 150px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .icon:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .icon img {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 15px;
+        }
+
+        .icon p {
+            color: #716553;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .back-icon {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            background: white;
+            padding: 5px;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .back-icon img {
+            width: 40px;
+            height: 40px;
+        }
+    </style>
+</head>
+<body>
+    <!-- أيقونة العودة إلى صفحة التسجيل -->
+    <div class="back-icon" onclick="window.location.href='submit.html'">
+        <img src="https://cdn-icons-png.flaticon.com/512/263/263115.png" alt="العودة إلى صفحة التسجيل">
+    </div>
+
+    <!-- غلاف الصفحة -->
+    <div class="header-cover"></div>
+
+    <!-- أيقونات الأقسام -->
+    <div class="icons-container">
+        <!-- قسم الإنشاءات المدنية -->
+        <div class="icon" onclick="window.location.href='‏‏madne - result.html'">
+            <img src="https://cdn-icons-png.flaticon.com/512/9189/9189206.png" alt="الإنشاءات المدنية">
+            <p>الإنشاءات المدنية</p>
+        </div>
+
+        <!-- قسم المساحة -->
+        <div class="icon" onclick="window.location.href='‏‏mesha - result.html'">
+            <img src="https://cdn-icons-png.flaticon.com/512/9669/9669391.png" alt="المساحة">
+            <p>المساحة</p>
+        </div>
+
+        <!-- قسم برمجيات الحاسب -->
+        <div class="icon" onclick="window.location.href='‏‏computerprograme -result.html'">
+            <img src="https://cdn-icons-png.flaticon.com/512/2004/2004580.png" alt="برمجيات الحاسب">
+            <p>برمجيات الحاسب</p>
+        </div>
+
+        <!-- قسم الأجهزة الطبية -->
+        <div class="icon" onclick="window.location.href='‏‏medicaldevices - result.html'">
+            <img src="https://cdn-icons-png.flaticon.com/512/9297/9297865.png" alt="الأجهزة الطبية">
+            <p>الأجهزة الطبية</p>
+        </div>
+
+        <!-- قسم تنظيم الفعاليات -->
+        <div class="icon" onclick="window.location.href='‏‏organizing -result.html'">
+            <img src="https://cdn-icons-png.flaticon.com/512/2364/2364743.png" alt="تنظيم الفعاليات">
+            <p>تنظيم الفعاليات</p>
+        </div>
+    </div>
+</body>
+</html>

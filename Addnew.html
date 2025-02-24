@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة مستخدم جديد</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f9;
+            text-align: center;
+            direction: rtl;
+        }
+
+        .header-cover {
+            width: 100%;
+            height: 200px;
+            background-image: url('https://i.imgur.com/kmTHeJD.png'); /* تغيير غلاف الصفحة */
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #716553;
+            margin: 20px 0;
+            font-size: 32px;
+        }
+
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            max-width: 800px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: right;
+        }
+
+        .form-group label {
+            display: block;
+            color: #716553;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #716553;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .buttons button {
+            background: none;
+            border: 2px solid #716553;
+            color: #716553;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .buttons button:hover {
+            background: #716553;
+            color: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #716553;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .back-icon {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            background: white;
+            padding: 5px;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .back-icon img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .button-container button {
+            background: none;
+            border: 2px solid #716553;
+            color: #716553;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .button-container button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .button-container button:hover {
+            background: #716553;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- أيقونة العودة إلى صفحة التسجيل -->
+    <div class="back-icon" onclick="window.location.href='submit.html'">
+        <img src="https://cdn-icons-png.flaticon.com/512/263/263115.png" alt="العودة إلى صفحة التسجيل">
+    </div>
+
+    <!-- غلاف الصفحة -->
+    <div class="header-cover"></div>
+
+    <h1>إضافة مستخدم جديد</h1>
+
+    <!-- أزرار التحكم المحدثة -->
+    <div class="button-container">
+        <button onclick="saveData()">
+            <img src="https://cdn-icons-png.flaticon.com/512/2874/2874091.png" alt="حفظ">
+            حفظ
+        </button>
+        <button onclick="addNewUser()">
+            <img src="https://cdn-icons-png.flaticon.com/512/16156/16156865.png" alt="إضافة جديد">
+            إضافة جديد
+        </button>
+        <button onclick="deleteData()">
+            <img src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png" alt="مسح">
+            مسح
+        </button>
+        <button onclick="editData()">
+            <img src="https://cdn-icons-png.flaticon.com/512/8188/8188338.png" alt="تعديل">
+            تعديل
+        </button>
+        <button onclick="searchData()">
+            <img src="https://cdn-icons-png.flaticon.com/512/1265/1265775.png" alt="بحث">
+            بحث
+        </button>
+        <button onclick="filterData()">
+            <img src="https://cdn-icons-png.flaticon.com/512/1159/1159641.png" alt="فلترة">
+            فلترة
+        </button>
+        <button onclick="printData()">
+            <img src="https://cdn-icons-png.flaticon.com/512/4305/4305625.png" alt="طباعة">
+            طباعة
+        </button>
+        <button onclick="window.location.href='submitsubject.html'">
+            <img src="https://cdn-icons-png.flaticon.com/512/4301/4301554.png" alt="تسجيل المقررات">
+            تسجيل المقررات
+        </button>
+    </div>
+
+    <!-- نموذج إدخال البيانات -->
+    <div class="form-container">
+        <!-- القسم الأول: البيانات الشخصية -->
+        <div class="form-section">
+            <h2>البيانات الشخصية</h2>
+            <div class="form-group">
+                <label for="name">الاسم</label>
+                <input type="text" id="name" placeholder="أدخل الاسم">
+            </div>
+            <div class="form-group">
+                <label for="id">رقم الهوية</label>
+                <input type="text" id="id" placeholder="أدخل رقم الهوية">
+            </div>
+            <div class="form-group">
+                <label for="academic-number">الرقم الأكاديمي</label>
+                <input type="text" id="academic-number" placeholder="أدخل الرقم الأكاديمي">
+            </div>
+            <div class="form-group">
+                <label for="email">الإيميل</label>
+                <input type="email" id="email" placeholder="أدخل الإيميل">
+            </div>
+            <div class="form-group">
+                <label for="job">الوظيفة</label>
+                <input type="text" id="job" placeholder="أدخل الوظيفة">
+            </div>
+            <div class="form-group">
+                <label for="workplace">مكان العمل</label>
+                <input type="text" id="workplace" placeholder="أدخل مكان العمل">
+            </div>
+            <div class="form-group">
+                <label for="job-title">المسمى الوظيفي</label>
+                <input type="text" id="job-title" placeholder="أدخل المسمى الوظيفي">
+            </div>
+        </div>
+
+        <!-- القسم الثاني: بيانات الدبلوم -->
+        <div class="form-section">
+            <h2>بيانات الدبلوم</h2>
+            <div class="form-group">
+                <label for="department">القسم</label>
+                <input type="text" id="department" placeholder="أدخل القسم">
+            </div>
+            <div class="form-group">
+                <label for="specialization">التخصص</label>
+                <input type="text" id="specialization" placeholder="أدخل التخصص">
+            </div>
+            <div class="form-group">
+                <label for="current-level">المستوى الحالي</label>
+                <input type="text" id="current-level" placeholder="أدخل المستوى الحالي">
+            </div>
+            <div class="form-group">
+                <label for="start-date">تاريخ بداية التدريب</label>
+                <input type="date" id="start-date">
+            </div>
+            <div class="form-group">
+                <label for="supervisor">مشرف الدبلوم</label>
+                <input type="text" id="supervisor" placeholder="أدخل اسم المشرف">
+            </div>
+            <div class="form-group">
+                <label for="equivalence">المعادلة</label>
+                <div>
+                    <input type="checkbox" id="equivalence-yes" name="equivalence" value="نعم">
+                    <label for="equivalence-yes">نعم</label>
+                    <input type="checkbox" id="equivalence-no" name="equivalence" value="لا">
+                    <label for="equivalence-no">لا</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- القسم الثالث: الرسوم الدراسية -->
+        <div class="form-section">
+            <h2>الرسوم الدراسية</h2>
+            <div class="form-group">
+                <label for="total-fees">إجمالي الرسوم</label>
+                <input type="number" id="total-fees" placeholder="أدخل إجمالي الرسوم" oninput="calculateFinalFees()">
+            </div>
+            <div class="form-group">
+                <label for="discount">الخصم</label>
+                <input type="number" id="discount" placeholder="أدخل الخصم" oninput="calculateFinalFees()">
+            </div>
+            <div class="form-group">
+                <label for="final-fees">الرسوم بعد الخصم</label>
+                <input type="number" id="final-fees" placeholder="الرسوم بعد الخصم" readonly>
+            </div>
+        </div>
+
+        <!-- جدول عرض البيانات -->
+        <table id="data-table">
+            <thead>
+                <tr>
+                    <th>تحديد</th>
+                    <th>الاسم</th>
+                    <th>رقم الهوية</th>
+                    <th>الرقم الأكاديمي</th>
+                    <th>الإيميل</th>
+                    <th>الوظيفة</th>
+                    <th>مكان العمل</th>
+                    <th>المسمى الوظيفي</th>
+                    <th>القسم</th>
+                    <th>التخصص</th>
+                    <th>المستوى الحالي</th>
+                    <th>تاريخ بداية التدريب</th>
+                    <th>مشرف الدبلوم</th>
+                    <th>المعادلة</th>
+                    <th>إجمالي الرسوم</th>
+                    <th>الخصم</th>
+                    <th>الرسوم بعد الخصم</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- البيانات ستظهر هنا -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        let data = JSON.parse(localStorage.getItem('userData')) || []; // تحميل البيانات من localStorage
+
+        // تحميل البيانات عند فتح الصفحة
+        window.onload = function() {
+            updateTable();
+        };
+
+        // إضافة مستخدم جديد
+        function addNewUser() {
+            const name = document.getElementById('name').value;
+            const id = document.getElementById('id').value;
+
+            // التحقق من عدم تكرار الاسم أو رقم الهوية
+            const isDuplicate = data.some(user => user.name === name || user.id === id);
+            if (isDuplicate) {
+                alert('الاسم أو رقم الهوية موجود مسبقًا!');
+                return;
+            }
+
+            // الحصول على القيم من النموذج
+            const academicNumber = document.getElementById('academic-number').value;
+            const email = document.getElementById('email').value;
+            const job = document.getElementById('job').value;
+            const workplace = document.getElementById('workplace').value;
+            const jobTitle = document.getElementById('job-title').value;
+            const department = document.getElementById('department').value;
+            const specialization = document.getElementById('specialization').value;
+            const currentLevel = document.getElementById('current-level').value;
+            const startDate = document.getElementById('start-date').value;
+            const supervisor = document.getElementById('supervisor').value;
+            const equivalenceYes = document.getElementById('equivalence-yes').checked ? 'نعم' : 'لا';
+            const totalFees = document.getElementById('total-fees').value;
+            const discount = document.getElementById('discount').value;
+            const finalFees = document.getElementById('final-fees').value;
+
+            // إضافة البيانات إلى المصفوفة
+            data.push({
+                name, id, academicNumber, email, job, workplace, jobTitle,
+                department, specialization, currentLevel, startDate, supervisor,
+                equivalenceYes, totalFees, discount, finalFees
+            });
+
+            // تحديث الجدول وحفظ البيانات
+            updateTable();
+            saveData();
+            clearForm();
+        }
+
+        // حفظ البيانات
+        function saveData() {
+            localStorage.setItem('userData', JSON.stringify(data));
+            alert('تم حفظ البيانات بنجاح!');
+        }
+
+        // تحديث الجدول
+        function updateTable() {
+            const table = document.getElementById('data-table').getElementsByTagName('tbody')[0];
+            table.innerHTML = ''; // مسح الجدول الحالي
+
+            data.forEach((item, index) => {
+                const newRow = table.insertRow();
+                newRow.innerHTML = `
+                    <td><input type="checkbox" id="select-${index}"></td>
+                    <td>${item.name}</td>
+                    <td>${item.id}</td>
+                    <td>${item.academicNumber}</td>
+                    <td>${item.email}</td>
+                    <td>${item.job}</td>
+                    <td>${item.workplace}</td>
+                    <td>${item.jobTitle}</td>
+                    <td>${item.department}</td>
+                    <td>${item.specialization}</td>
+                    <td>${item.currentLevel}</td>
+                    <td>${item.startDate}</td>
+                    <td>${item.supervisor}</td>
+                    <td>${item.equivalenceYes}</td>
+                    <td>${item.totalFees}</td>
+                    <td>${item.discount}</td>
+                    <td>${item.finalFees}</td>
+                `;
+            });
+        }
+
+        // إخلاء الحقول بعد الإضافة
+        function clearForm() {
+            document.getElementById('name').value = '';
+            document.getElementById('id').value = '';
+            document.getElementById('academic-number').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('job').value = '';
+            document.getElementById('workplace').value = '';
+            document.getElementById('job-title').value = '';
+            document.getElementById('department').value = '';
+            document.getElementById('specialization').value = '';
+            document.getElementById('current-level').value = '';
+            document.getElementById('start-date').value = '';
+            document.getElementById('supervisor').value = '';
+            document.getElementById('equivalence-yes').checked = false;
+            document.getElementById('equivalence-no').checked = false;
+            document.getElementById('total-fees').value = '';
+            document.getElementById('discount').value = '';
+            document.getElementById('final-fees').value = '';
+        }
+
+        // مسح البيانات المحددة
+        function deleteData() {
+            const selected = document.querySelectorAll('input[type="checkbox"]:checked');
+            selected.forEach(checkbox => {
+                const index = checkbox.id.split('-')[1];
+                data.splice(index, 1);
+            });
+            updateTable();
+            saveData();
+        }
+
+        // تعديل البيانات المحددة
+        function editData() {
+            const selected = document.querySelector('input[type="checkbox"]:checked');
+            if (selected) {
+                const index = selected.id.split('-')[1];
+                const user = data[index];
+                document.getElementById('name').value = user.name;
+                document.getElementById('id').value = user.id;
+                document.getElementById('academic-number').value = user.academicNumber;
+                document.getElementById('email').value = user.email;
+                document.getElementById('job').value = user.job;
+                document.getElementById('workplace').value = user.workplace;
+                document.getElementById('job-title').value = user.jobTitle;
+                document.getElementById('department').value = user.department;
+                document.getElementById('specialization').value = user.specialization;
+                document.getElementById('current-level').value = user.currentLevel;
+                document.getElementById('start-date').value = user.startDate;
+                document.getElementById('supervisor').value = user.supervisor;
+                document.getElementById('equivalence-yes').checked = user.equivalenceYes === 'نعم';
+                document.getElementById('equivalence-no').checked = user.equivalenceYes === 'لا';
+                document.getElementById('total-fees').value = user.totalFees;
+                document.getElementById('discount').value = user.discount;
+                document.getElementById('final-fees').value = user.finalFees;
+            } else {
+                alert('الرجاء تحديد مستخدم للتعديل.');
+            }
+        }
+
+        // بحث عن مستخدم
+        function searchData() {
+            const searchTerm = prompt('أدخل الاسم أو رقم الهوية للبحث:');
+            if (searchTerm) {
+                const result = data.find(user => user.name === searchTerm || user.id === searchTerm);
+                if (result) {
+                    // عرض البيانات في النموذج
+                    document.getElementById('name').value = result.name;
+                    document.getElementById('id').value = result.id;
+                    document.getElementById('academic-number').value = result.academicNumber;
+                    document.getElementById('email').value = result.email;
+                    document.getElementById('job').value = result.job;
+                    document.getElementById('workplace').value = result.workplace;
+                    document.getElementById('job-title').value = result.jobTitle;
+                    document.getElementById('department').value = result.department;
+                    document.getElementById('specialization').value = result.specialization;
+                    document.getElementById('current-level').value = result.currentLevel;
+                    document.getElementById('start-date').value = result.startDate;
+                    document.getElementById('supervisor').value = result.supervisor;
+                    document.getElementById('equivalence-yes').checked = result.equivalenceYes === 'نعم';
+                    document.getElementById('equivalence-no').checked = result.equivalenceYes === 'لا';
+                    document.getElementById('total-fees').value = result.totalFees;
+                    document.getElementById('discount').value = result.discount;
+                    document.getElementById('final-fees').value = result.finalFees;
+                } else {
+                    alert('لم يتم العثور على المستخدم.');
+                }
+            }
+        }
+
+        // فلترة البيانات
+        function filterData() {
+            const filterTerm = prompt('أدخل التخصص أو القسم للفلترة:');
+            if (filterTerm) {
+                const filteredData = data.filter(user => user.specialization === filterTerm || user.department === filterTerm);
+                data = filteredData;
+                updateTable();
+            }
+        }
+
+        // طباعة البيانات المحددة
+        function printData() {
+            const selected = document.querySelector('input[type="checkbox"]:checked');
+            if (selected) {
+                const index = selected.id.split('-')[1];
+                const user = data[index];
+                const printWindow = window.open('', '', 'width=600,height=600');
+                printWindow.document.write(`<h1>بيانات المستخدم</h1>`);
+                printWindow.document.write(`<p>الاسم: ${user.name}</p>`);
+                printWindow.document.write(`<p>رقم الهوية: ${user.id}</p>`);
+                printWindow.document.write(`<p>الرقم الأكاديمي: ${user.academicNumber}</p>`);
+                printWindow.document.write(`<p>الإيميل: ${user.email}</p>`);
+                printWindow.document.write(`<p>الوظيفة: ${user.job}</p>`);
+                printWindow.document.write(`<p>مكان العمل: ${user.workplace}</p>`);
+                printWindow.document.write(`<p>المسمى الوظيفي: ${user.jobTitle}</p>`);
+                printWindow.document.write(`<p>القسم: ${user.department}</p>`);
+                printWindow.document.write(`<p>التخصص: ${user.specialization}</p>`);
+                printWindow.document.write(`<p>المستوى الحالي: ${user.currentLevel}</p>`);
+                printWindow.document.write(`<p>تاريخ بداية التدريب: ${user.startDate}</p>`);
+                printWindow.document.write(`<p>مشرف الدبلوم: ${user.supervisor}</p>`);
+                printWindow.document.write(`<p>المعادلة: ${user.equivalenceYes}</p>`);
+                printWindow.document.write(`<p>إجمالي الرسوم: ${user.totalFees}</p>`);
+                printWindow.document.write(`<p>الخصم: ${user.discount}</p>`);
+                printWindow.document.write(`<p>الرسوم بعد الخصم: ${user.finalFees}</p>`);
+                printWindow.document.close();
+                printWindow.print();
+            } else {
+                alert('الرجاء تحديد مستخدم للطباعة.');
+            }
+        }
+
+        // حساب الرسوم بعد الخصم
+        function calculateFinalFees() {
+            const totalFees = parseFloat(document.getElementById('total-fees').value) || 0;
+            const discount = parseFloat(document.getElementById('discount').value) || 0;
+            const finalFees = totalFees - discount;
+            document.getElementById('final-fees').value = finalFees.toFixed(2);
+        }
+    </script>
+</body>
+</html>

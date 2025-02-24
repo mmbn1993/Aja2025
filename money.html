@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الإدارة المالية</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hijri-date-picker@1.0.0/css/hijri-date-picker.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f9;
+            text-align: center;
+            direction: rtl;
+        }
+
+        .header-cover {
+            width: 100%;
+            height: 200px;
+            background-image: url('https://ce9b213c.delivery.rocketcdn.me/wp-content/uploads/%D8%A7%D9%84%D8%A7%D8%AF%D8%A7%D8%B1%D9%87-%D8%A7%D9%84%D9%85%D8%A7%D9%84%D9%8A%D9%87.webp');
+            background-size: cover;
+            background-position: center;
+        }
+
+        h1 {
+            color: #716553;
+            margin: 20px 0;
+            font-size: 32px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .buttons button {
+            background: none;
+            border: 2px solid #716553;
+            color: #716553;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .buttons button:hover {
+            background: #716553;
+            color: white;
+        }
+
+        .buttons button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            max-width: 800px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: right;
+        }
+
+        .form-group label {
+            display: block;
+            color: #716553;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #716553;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #716553;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .back-icon {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            background: white;
+            padding: 5px;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .back-icon img {
+            width: 40px;
+            height: 40px;
+        }
+    </style>
+</head>
+<body>
+    <!-- أيقونة العودة إلى الصفحة الرئيسية -->
+    <div class="back-icon" onclick="window.location.href='main-page.html'">
+        <img src="https://cdn-icons-png.flaticon.com/512/263/263115.png" alt="العودة إلى الصفحة الرئيسية">
+    </div>
+
+    <!-- غلاف الصفحة -->
+    <div class="header-cover"></div>
+
+    <h1>الإدارة المالية</h1>
+
+    <!-- الأزرار -->
+    <div class="buttons">
+        <button onclick="addNew()">
+            <img src="https://cdn-icons-png.flaticon.com/512/6378/6378294.png" alt="إضافة جديد">
+            إضافة جديد
+        </button>
+        <button onclick="editUser()">
+            <img src="https://cdn-icons-png.flaticon.com/512/5886/5886022.png" alt="تعديل">
+            تعديل
+        </button>
+        <button onclick="searchUser()">
+            <img src="https://cdn-icons-png.flaticon.com/512/11455/11455159.png" alt="بحث">
+            بحث
+        </button>
+        <button onclick="saveData()">
+            <img src="https://cdn-icons-png.flaticon.com/512/9784/9784309.png" alt="حفظ">
+            حفظ
+        </button>
+        <button onclick="deleteSelected()">
+            <img src="https://cdn-icons-png.flaticon.com/512/7072/7072378.png" alt="مسح">
+            مسح
+        </button>
+        <button onclick="printSelected()">
+            <img src="https://cdn-icons-png.flaticon.com/512/18948/18948612.png" alt="طباعة">
+            طباعة
+        </button>
+        <button onclick="filterUsers()">
+            <img src="https://cdn-icons-png.flaticon.com/512/1159/1159641.png" alt="فلترة">
+            فلترة
+        </button>
+    </div>
+
+    <!-- نموذج الإدخال -->
+    <div class="form-container">
+        <!-- قائمة المستخدمين -->
+        <div class="form-group">
+            <label for="userList">اختر مستخدمًا:</label>
+            <select id="userList" onchange="loadUserData(this.value)">
+                <option value="">-- اختر مستخدمًا --</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="name">الاسم</label>
+            <input type="text" id="name" placeholder="ادخل الاسم">
+        </div>
+        <div class="form-group">
+            <label for="idNumber">رقم الهوية</label>
+            <input type="text" id="idNumber" placeholder="ادخل رقم الهوية">
+        </div>
+        <div class="form-group">
+            <label for="academicNumber">الرقم الأكاديمي</label>
+            <input type="text" id="academicNumber" placeholder="ادخل الرقم الأكاديمي">
+        </div>
+        <div class="form-group">
+            <label for="email">الإيميل</label>
+            <input type="email" id="email" placeholder="ادخل الإيميل">
+        </div>
+        <div class="form-group">
+            <label for="department">القسم</label>
+            <input type="text" id="department" placeholder="ادخل القسم">
+        </div>
+        <div class="form-group">
+            <label for="specialization">التخصص</label>
+            <input type="text" id="specialization" placeholder="ادخل التخصص">
+        </div>
+        <div class="form-group">
+            <label for="totalFees">إجمالي الرسوم</label>
+            <input type="number" id="totalFees" placeholder="ادخل إجمالي الرسوم" oninput="calculateFeesAfterDiscount()">
+        </div>
+        <div class="form-group">
+            <label for="discount">الخصم</label>
+            <input type="number" id="discount" placeholder="ادخل الخصم" oninput="calculateFeesAfterDiscount()">
+        </div>
+        <div class="form-group">
+            <label for="feesAfterDiscount">الرسوم بعد الخصم</label>
+            <input type="number" id="feesAfterDiscount" placeholder="الرسوم بعد الخصم" readonly>
+        </div>
+        <div class="form-group">
+            <label for="registrationFee">دفعة التقديم والتسجيل (1000 ريال)</label>
+            <input type="number" id="registrationFee" value="1000" readonly>
+        </div>
+
+        <!-- ديناميكيًا: إضافة 10 دفعات -->
+        <div id="installmentsContainer"></div>
+
+        <!-- الدفعة الختامية -->
+        <div class="form-group">
+            <label>
+                <input type="checkbox" id="finalPaymentCheckbox" onchange="updateFinalPayment()"> تفعيل الدفعة الختامية (3000 ريال)
+            </label>
+            <input type="number" id="finalPayment" value="3000" readonly>
+        </div>
+
+        <div class="form-group">
+            <label for="totalPaid">الإجمالي المدفوع</label>
+            <input type="number" id="totalPaid" placeholder="الإجمالي المدفوع" readonly>
+        </div>
+
+        <!-- المتبقي من الرسوم -->
+        <div class="form-group">
+            <label for="remainingFees">المتبقي من الرسوم</label>
+            <input type="number" id="remainingFees" placeholder="المتبقي من الرسوم" readonly>
+        </div>
+    </div>
+
+    <!-- جدول البيانات -->
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>تحديد</th>
+                <th>الاسم</th>
+                <th>رقم الهوية</th>
+                <th>الرقم الأكاديمي</th>
+                <th>الإيميل</th>
+                <th>القسم</th>
+                <th>التخصص</th>
+                <th>إجمالي الرسوم</th>
+                <th>الخصم</th>
+                <th>الرسوم بعد الخصم</th>
+                <th>الإجمالي المدفوع</th>
+                <th>المتبقي من الرسوم</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- البيانات ستضاف هنا ديناميكيًا -->
+        </tbody>
+    </table>
+
+    <script src="https://cdn.jsdelivr.net/npm/hijri-date-picker@1.0.0/js/hijri-date-picker.min.js"></script>
+    <script>
+        const installmentsContainer = document.getElementById('installmentsContainer');
+        const totalPaidInput = document.getElementById('totalPaid');
+        const remainingFeesInput = document.getElementById('remainingFees');
+        let totalPaid = 0;
+        let data = JSON.parse(localStorage.getItem('users')) || [];
+        let editingIndex = null;
+
+        // تحميل البيانات عند فتح الصفحة
+        window.onload = function() {
+            renderTable();
+            updateUserList();
+        };
+
+        // إنشاء 10 دفعات ديناميكيًا
+        for (let i = 1; i <= 10; i++) {
+            const installmentDiv = document.createElement('div');
+            installmentDiv.innerHTML = `
+                <h3>الدفعة ${i}</h3>
+                <div class="form-group">
+                    <label for="installment${i}_1">القسط 1</label>
+                    <input type="number" id="installment${i}_1" oninput="calculatePaid(${i})">
+                    <input type="text" id="date${i}_1" class="hijri-date" placeholder="التاريخ الهجري">
+                </div>
+                <div class="form-group">
+                    <label for="installment${i}_2">القسط 2</label>
+                    <input type="number" id="installment${i}_2" oninput="calculatePaid(${i})">
+                    <input type="text" id="date${i}_2" class="hijri-date" placeholder="التاريخ الهجري">
+                </div>
+                <div class="form-group">
+                    <label for="installment${i}_3">القسط 3</label>
+                    <input type="number" id="installment${i}_3" oninput="calculatePaid(${i})">
+                    <input type="text" id="date${i}_3" class="hijri-date" placeholder="التاريخ الهجري">
+                </div>
+                <div class="form-group">
+                    <label for="installment${i}_4">القسط 4</label>
+                    <input type="number" id="installment${i}_4" oninput="calculatePaid(${i})">
+                    <input type="text" id="date${i}_4" class="hijri-date" placeholder="التاريخ الهجري">
+                </div>
+                <div class="form-group">
+                    <label for="paid${i}">المدفوع من الدفعة ${i}</label>
+                    <input type="number" id="paid${i}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="remaining${i}">المتبقى من الدفعة ${i}</label>
+                    <input type="number" id="remaining${i}" readonly>
+                </div>
+            `;
+            installmentsContainer.appendChild(installmentDiv);
+        }
+
+        // تفعيل التقويم الهجري
+        document.querySelectorAll('.hijri-date').forEach(input => {
+            new HijriDatePicker(input, {
+                hijri: true,
+                locale: 'ar',
+            });
+        });
+
+        // حساب المدفوع والمتبقى لكل دفعة
+        function calculatePaid(installmentNumber) {
+            let paid = 0;
+            for (let i = 1; i <= 4; i++) {
+                paid += parseFloat(document.getElementById(`installment${installmentNumber}_${i}`).value) || 0;
+            }
+            document.getElementById(`paid${installmentNumber}`).value = paid;
+            document.getElementById(`remaining${installmentNumber}`).value = 2000 - paid;
+            updateTotalPaid();
+        }
+
+        // تحديث الإجمالي المدفوع
+        function updateTotalPaid() {
+            totalPaid = 1000; // دفعة التسجيل
+            for (let i = 1; i <= 10; i++) {
+                totalPaid += parseFloat(document.getElementById(`paid${i}`).value) || 0;
+            }
+
+            // إضافة الدفعة الختامية إذا كانت مفعلة
+            const finalPaymentCheckbox = document.getElementById('finalPaymentCheckbox');
+            if (finalPaymentCheckbox.checked) {
+                totalPaid += 3000;
+            }
+
+            totalPaidInput.value = totalPaid;
+            updateRemainingFees();
+        }
+
+        // تحديث المتبقي من الرسوم
+        function updateRemainingFees() {
+            const feesAfterDiscount = parseFloat(document.getElementById('feesAfterDiscount').value) || 0;
+            const remainingFees = feesAfterDiscount - totalPaid;
+            remainingFeesInput.value = remainingFees;
+        }
+
+        // تفعيل أو تعطيل الدفعة الختامية
+        function updateFinalPayment() {
+            updateTotalPaid();
+        }
+
+        // حساب الرسوم بعد الخصم
+        function calculateFeesAfterDiscount() {
+            const totalFees = parseFloat(document.getElementById('totalFees').value) || 0;
+            const discount = parseFloat(document.getElementById('discount').value) || 0;
+            const feesAfterDiscount = totalFees - discount;
+            document.getElementById('feesAfterDiscount').value = feesAfterDiscount;
+            updateRemainingFees();
+        }
+
+        // إضافة بيانات جديدة إلى الجدول
+        function addNew() {
+            const name = document.getElementById('name').value;
+            const idNumber = document.getElementById('idNumber').value;
+
+            // التحقق من عدم تكرار الاسم أو رقم الهوية
+            if (data.some(item => item.name === name || item.idNumber === idNumber)) {
+                alert('الاسم أو رقم الهوية موجود مسبقًا!');
+                return;
+            }
+
+            const academicNumber = document.getElementById('academicNumber').value;
+            const email = document.getElementById('email').value;
+            const department = document.getElementById('department').value;
+            const specialization = document.getElementById('specialization').value;
+            const totalFees = document.getElementById('totalFees').value;
+            const discount = document.getElementById('discount').value;
+            const feesAfterDiscount = document.getElementById('feesAfterDiscount').value;
+            const totalPaid = totalPaidInput.value;
+            const remainingFees = remainingFeesInput.value;
+
+            const newData = {
+                name,
+                idNumber,
+                academicNumber,
+                email,
+                department,
+                specialization,
+                totalFees,
+                discount,
+                feesAfterDiscount,
+                totalPaid,
+                remainingFees,
+            };
+
+            data.push(newData);
+            localStorage.setItem('users', JSON.stringify(data));
+            renderTable();
+            updateUserList();
+            clearForm();
+        }
+
+        // عرض البيانات في الجدول
+        function renderTable() {
+            const tableBody = document.querySelector('#dataTable tbody');
+            tableBody.innerHTML = '';
+            data.forEach((item, index) => {
+                const newRow = tableBody.insertRow();
+                newRow.innerHTML = `
+                    <td><input type="checkbox" onclick="selectUser(${index})"></td>
+                    <td>${item.name}</td>
+                    <td>${item.idNumber}</td>
+                    <td>${item.academicNumber}</td>
+                    <td>${item.email}</td>
+                    <td>${item.department}</td>
+                    <td>${item.specialization}</td>
+                    <td>${item.totalFees}</td>
+                    <td>${item.discount}</td>
+                    <td>${item.feesAfterDiscount}</td>
+                    <td>${item.totalPaid}</td>
+                    <td>${item.remainingFees}</td>
+                `;
+            });
+        }
+
+        // إخلاء الحقول بعد الإضافة
+        function clearForm() {
+            document.getElementById('name').value = '';
+            document.getElementById('idNumber').value = '';
+            document.getElementById('academicNumber').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('department').value = '';
+            document.getElementById('specialization').value = '';
+            document.getElementById('totalFees').value = '';
+            document.getElementById('discount').value = '';
+            document.getElementById('feesAfterDiscount').value = '';
+            document.getElementById('totalPaid').value = '';
+            document.getElementById('remainingFees').value = '';
+            document.getElementById('finalPaymentCheckbox').checked = false;
+            editingIndex = null;
+        }
+
+        // تحديد مستخدم
+        function selectUser(index) {
+            editingIndex = index;
+        }
+
+        // تعديل مستخدم
+        function editUser() {
+            if (editingIndex === null) {
+                alert('الرجاء تحديد مستخدم للتعديل');
+                return;
+            }
+            const user = data[editingIndex];
+            document.getElementById('name').value = user.name;
+            document.getElementById('idNumber').value = user.idNumber;
+            document.getElementById('academicNumber').value = user.academicNumber;
+            document.getElementById('email').value = user.email;
+            document.getElementById('department').value = user.department;
+            document.getElementById('specialization').value = user.specialization;
+            document.getElementById('totalFees').value = user.totalFees;
+            document.getElementById('discount').value = user.discount;
+            document.getElementById('feesAfterDiscount').value = user.feesAfterDiscount;
+            document.getElementById('totalPaid').value = user.totalPaid;
+            document.getElementById('remainingFees').value = user.remainingFees;
+        }
+
+        // حفظ البيانات
+        function saveData() {
+            if (editingIndex === null) {
+                addNew();
+            } else {
+                const name = document.getElementById('name').value;
+                const idNumber = document.getElementById('idNumber').value;
+                const academicNumber = document.getElementById('academicNumber').value;
+                const email = document.getElementById('email').value;
+                const department = document.getElementById('department').value;
+                const specialization = document.getElementById('specialization').value;
+                const totalFees = document.getElementById('totalFees').value;
+                const discount = document.getElementById('discount').value;
+                const feesAfterDiscount = document.getElementById('feesAfterDiscount').value;
+                const totalPaid = totalPaidInput.value;
+                const remainingFees = remainingFeesInput.value;
+
+                data[editingIndex] = {
+                    name,
+                    idNumber,
+                    academicNumber,
+                    email,
+                    department,
+                    specialization,
+                    totalFees,
+                    discount,
+                    feesAfterDiscount,
+                    totalPaid,
+                    remainingFees,
+                };
+                localStorage.setItem('users', JSON.stringify(data));
+                renderTable();
+                updateUserList();
+                clearForm();
+            }
+        }
+
+        // مسح المستخدم المحدد
+        function deleteSelected() {
+            if (editingIndex === null) {
+                alert('الرجاء تحديد مستخدم للمسح');
+                return;
+            }
+            data.splice(editingIndex, 1);
+            localStorage.setItem('users', JSON.stringify(data));
+            renderTable();
+            updateUserList();
+            clearForm();
+        }
+
+        // طباعة المستخدم المحدد
+        function printSelected() {
+            if (editingIndex === null) {
+                alert('الرجاء تحديد مستخدم للطباعة');
+                return;
+            }
+            const user = data[editingIndex];
+            let printContent = '<h1>بيانات المستخدم المحدد</h1><table border="1"><tr>';
+            document.querySelectorAll('#dataTable thead th').forEach(th => {
+                printContent += `<th>${th.textContent}</th>`;
+            });
+            printContent += '</tr><tr>';
+            printContent += `<td>${user.name}</td>`;
+            printContent += `<td>${user.idNumber}</td>`;
+            printContent += `<td>${user.academicNumber}</td>`;
+            printContent += `<td>${user.email}</td>`;
+            printContent += `<td>${user.department}</td>`;
+            printContent += `<td>${user.specialization}</td>`;
+            printContent += `<td>${user.totalFees}</td>`;
+            printContent += `<td>${user.discount}</td>`;
+            printContent += `<td>${user.feesAfterDiscount}</td>`;
+            printContent += `<td>${user.totalPaid}</td>`;
+            printContent += `<td>${user.remainingFees}</td>`;
+            printContent += '</tr></table>';
+
+            const printWindow = window.open('', '', 'width=800,height=600');
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        // فلترة المستخدمين
+        function filterUsers() {
+            const specialization = prompt('أدخل التخصص للفلترة:');
+            if (specialization) {
+                const filteredData = data.filter(item => item.specialization === specialization);
+                data = filteredData;
+                renderTable();
+            }
+        }
+
+        // بحث عن مستخدم
+        function searchUser() {
+            const searchTerm = prompt('أدخل اسم المستخدم أو رقم الهوية للبحث:');
+            if (searchTerm) {
+                const foundUser = data.find(item => item.name === searchTerm || item.idNumber === searchTerm);
+                if (foundUser) {
+                    // ملء حقول النموذج ببيانات المستخدم
+                    document.getElementById('name').value = foundUser.name;
+                    document.getElementById('idNumber').value = foundUser.idNumber;
+                    document.getElementById('academicNumber').value = foundUser.academicNumber;
+                    document.getElementById('email').value = foundUser.email;
+                    document.getElementById('department').value = foundUser.department;
+                    document.getElementById('specialization').value = foundUser.specialization;
+                    document.getElementById('totalFees').value = foundUser.totalFees;
+                    document.getElementById('discount').value = foundUser.discount;
+                    document.getElementById('feesAfterDiscount').value = foundUser.feesAfterDiscount;
+                    document.getElementById('totalPaid').value = foundUser.totalPaid;
+                    document.getElementById('remainingFees').value = foundUser.remainingFees;
+
+                    // تحديث الفهرس للتحرير
+                    editingIndex = data.indexOf(foundUser);
+                } else {
+                    alert('لم يتم العثور على المستخدم');
+                }
+            }
+        }
+
+        // تحميل بيانات المستخدم عند اختياره من القائمة
+        function loadUserData(userName) {
+            const foundUser = data.find(item => item.name === userName);
+            if (foundUser) {
+                document.getElementById('name').value = foundUser.name;
+                document.getElementById('idNumber').value = foundUser.idNumber;
+                document.getElementById('academicNumber').value = foundUser.academicNumber;
+                document.getElementById('email').value = foundUser.email;
+                document.getElementById('department').value = foundUser.department;
+                document.getElementById('specialization').value = foundUser.specialization;
+                document.getElementById('totalFees').value = foundUser.totalFees;
+                document.getElementById('discount').value = foundUser.discount;
+                document.getElementById('feesAfterDiscount').value = foundUser.feesAfterDiscount;
+                document.getElementById('totalPaid').value = foundUser.totalPaid;
+                document.getElementById('remainingFees').value = foundUser.remainingFees;
+
+                // تحديث الفهرس للتحرير
+                editingIndex = data.indexOf(foundUser);
+            }
+        }
+
+        // تحديث قائمة المستخدمين
+        function updateUserList() {
+            const userList = document.getElementById('userList');
+            userList.innerHTML = '<option value="">-- اختر مستخدمًا --</option>';
+            data.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.name;
+                option.textContent = user.name;
+                userList.appendChild(option);
+            });
+        }
+    </script>
+</body>
+</html>

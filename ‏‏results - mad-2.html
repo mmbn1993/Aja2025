@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>إدارة النتائج</title>
+    <style>
+        body {font-family: Arial, sans-serif; margin: 20px; text-align: center;}
+        .container {max-width: 1200px; margin: auto;}
+        h1 {color: #007BFF; margin-bottom: 20px;}
+        form {background: #f4f4f4; padding: 20px; border-radius: 5px;}
+        .form-group {margin-bottom: 15px;}
+        input, button, select {padding: 8px; margin: 5px; width: 200px;}
+        table {width: 100%; border-collapse: collapse; margin-top: 20px;}
+        th, td {border: 1px solid #ddd; padding: 8px; text-align: center;}
+        th {background-color: #f2f2f2; color: #007BFF;}
+        button {background-color: #007BFF; color: white; border: none; cursor: pointer;}
+        button:hover {background-color: #0056b3;}
+        .results-table {overflow-x: auto;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>إدارة النتائج</h1>
+        <form id="resultsForm">
+            <div class="form-group">
+                <select id="resName" required>
+                    <option value="">اختر اسم المتدرب</option>
+                </select>
+                <input type="text" id="resAcademicNumber" placeholder="الرقم الأكاديمي" readonly>
+                <input type="text" id="resIdNumber" placeholder="رقم الهوية" readonly>
+                <input type="email" id="resEmail" placeholder="الإيميل" readonly>
+            </div>
+            <div class="form-group">
+                <input type="text" id="resCourse1" placeholder="المقرر 1" readonly>
+                <input type="number" id="resGrade1" placeholder="الدرجة" min="0" max="100">
+                <input type="text" id="resCourse2" placeholder="المقرر 2" readonly>
+                <input type="number" id="resGrade2" placeholder="الدرجة" min="0" max="100">
+            </div>
+            <div class="form-group">
+                <input type="text" id="resCourse3" placeholder="المقرر 3" readonly>
+                <input type="number" id="resGrade3" placeholder="الدرجة" min="0" max="100">
+                <input type="text" id="resCourse4" placeholder="المقرر 4" readonly>
+                <input type="number" id="resGrade4" placeholder="الدرجة" min="0" max="100">
+            </div>
+            <button type="button" onclick="addResult()">إضافة جديد</button>
+            <button type="button" onclick="saveResults()">حفظ</button>
+            <button type="button" onclick="deleteSelectedResults()">مسح المحدد</button>
+            <a href="index.html"><button type="button">العودة إلى صفحة تسجيل بيانات المتدربين</button></a>
+        </form>
+        <div class="results-table">
+            <table id="resultsTable">
+                <thead>
+                    <tr>
+                        <th>تحديد</th>
+                        <th>الاسم</th>
+                        <th>الرقم الأكاديمي</th>
+                        <th>رقم الهوية</th>
+                        <th>الإيميل</th>
+                        <th>المقرر 1</th>
+                        <th>الدرجة</th>
+                        <th>المقرر 2</th>
+                        <th>الدرجة</th>
+                        <th>المقرر 3</th>
+                        <th>الدرجة</th>
+                        <th>المقرر 4</th>
+                        <th>الدرجة</th>
+                        <th>الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let results = JSON.parse(localStorage.getItem('results')) || [];
+        let students = JSON.parse(localStorage.getItem('students')) || [];
+        let editingResultId = null;
+
+        function populateStudents() {
+            const select = document.getElementById('resName');
+            select.innerHTML = '<option value="">اختر اسم المتدرب</option>';
+            students.forEach(student => {
+                select.innerHTML += `<option value="${student.name}">${student.name}</option>`;
+            });
+        }
+
+        document.getElementById('resName').addEventListener('change', function() {
+            const selectedStudent = students.find(student => student.name === this.value);
+            if (selectedStudent) {
+                document.getElementById('resAcademicNumber').value = selectedStudent.academicNumber;
+                document.getElementById('resIdNumber').value = selectedStudent.idNumber;
+                document.getElementById('resEmail').value = selectedStudent.email;
+                document.getElementById('resCourse1').value = selectedStudent.course1;
+                document.getElementById('resCourse2').value = selectedStudent.course2;
+                document.getElementById('resCourse3').value = selectedStudent.course3;
+                document.getElementById('resCourse4').value = selectedStudent.course4;
+            }
+        });
+
+        function renderResults() {
+            const tbody = document.getElementById('resultsBody');
+            tbody.innerHTML = results.map((result, index) => `
+                <tr>
+                    <td><input type="checkbox" class="select-checkbox"></td>
+                    <td>${result.name}</td>
+                    <td>${result.academicNumber}</td>
+                    <td>${result.idNumber}</td>
+                    <td>${result.email}</td>
+                    <td>${result.course1}</td>
+                    <td>${result.grade1}</td>
+                    <td>${result.course2}</td>
+                    <td>${result.grade2}</td>
+                    <td>${result.course3}</td>
+                    <td>${result.grade3}</td>
+                    <td>${result.course4}</td>
+                    <td>${result.grade4}</td>
+                    <td>
+                        <button onclick="editResult(${index})">تعديل</button>
+                        <button onclick="deleteResult(${index})">حذف</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function addResult() {
+            const result = {
+                name: document.getElementById('resName').value,
+                academicNumber: document.getElementById('resAcademicNumber').value,
+                idNumber: document.getElementById('resIdNumber').value,
+                email: document.getElementById('resEmail').value,
+                course1: document.getElementById('resCourse1').value,
+                grade1: document.getElementById('resGrade1').value,
+                course2: document.getElementById('resCourse2').value,
+                grade2: document.getElementById('resGrade2').value,
+                course3: document.getElementById('resCourse3').value,
+                grade3: document.getElementById('resGrade3').value,
+                course4: document.getElementById('resCourse4').value,
+                grade4: document.getElementById('resGrade4').value
+            };
+            
+            if(editingResultId !== null) {
+                results[editingResultId] = result;
+                editingResultId = null;
+            } else {
+                results.push(result);
+            }
+            renderResults();
+            clearResultForm();
+            saveResults();
+        }
+
+        function saveResults() {
+            localStorage.setItem('results', JSON.stringify(results));
+            alert('تم الحفظ بنجاح!');
+        }
+
+        function deleteResult(index) {
+            results.splice(index, 1);
+            renderResults();
+            saveResults();
+        }
+
+        function deleteSelectedResults() {
+            const checkboxes = document.querySelectorAll('.select-checkbox');
+            results = results.filter((_, index) => !checkboxes[index].checked);
+            renderResults();
+            saveResults();
+        }
+
+        function editResult(index) {
+            const result = results[index];
+            document.getElementById('resName').value = result.name;
+            document.getElementById('resAcademicNumber').value = result.academicNumber;
+            document.getElementById('resIdNumber').value = result.idNumber;
+            document.getElementById('resEmail').value = result.email;
+            document.getElementById('resCourse1').value = result.course1;
+            document.getElementById('resGrade1').value = result.grade1;
+            document.getElementById('resCourse2').value = result.course2;
+            document.getElementById('resGrade2').value = result.grade2;
+            document.getElementById('resCourse3').value = result.course3;
+            document.getElementById('resGrade3').value = result.grade3;
+            document.getElementById('resCourse4').value = result.course4;
+            document.getElementById('resGrade4').value = result.grade4;
+            editingResultId = index;
+        }
+
+        function clearResultForm() {
+            document.getElementById('resultsForm').reset();
+        }
+
+        // التحميل الأولي
+        populateStudents();
+        renderResults();
+    </script>
+</body>
+</html>

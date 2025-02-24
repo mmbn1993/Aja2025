@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة النتائج - الإنشاءات المدنية</title>
+    <style>
+        body {
+            background-color: #f4f4f9;
+            text-align: center;
+            direction: rtl;
+        }
+
+        .header-cover {
+            width: 100%;
+            height: 300px;
+            background-image: url('https://i.imgur.com/JJPGhf8.jpeg');
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #8B4513;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        form {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        input, select, button {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            width: 220px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        select {
+            background: white;
+            cursor: pointer;
+        }
+
+        button {
+            background-color: #8B4513;
+            color: white;
+            font-weight: bold;
+            border: none;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #654321;
+            transform: translateY(-2px);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+        }
+
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #8B4513;
+            color: white;
+        }
+
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .back-icon {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: white;
+            padding: 10px;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .back-icon img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .course-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .course-select select {
+            width: 100%;
+        }
+
+        option:disabled {
+            color: #999;
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+    <div class="back-icon" onclick="window.location.href='madn - 1.html'">
+        <img src="https://cdn-icons-png.flaticon.com/512/93/93634.png" alt="عودة">
+    </div>
+
+    <div class="container">
+        <h1>إدارة النتائج - الإنشاءات المدنية</h1>
+        
+        <form id="resultsForm">
+            <div class="form-group">
+                <select id="resName" required>
+                    <option value="">اختر اسم المتدرب</option>
+                </select>
+                <input type="text" id="resAcademicNumber" placeholder="الرقم الأكاديمي" readonly>
+                <input type="text" id="resIdNumber" placeholder="رقم الهوية" readonly>
+                <input type="email" id="resEmail" placeholder="الإيميل" readonly>
+                <input type="text" id="resSpecialization" placeholder="التخصص" readonly>
+                <input type="text" id="resLevel" placeholder="المستوى" readonly>
+            </div>
+
+            <div class="form-group">
+                <div class="course-container">
+                    <div class="course-select">
+                        <select id="resCourse1" class="course-dropdown">
+                            <option value="">اختر المقرر 1</option>
+                        </select>
+                        <input type="number" id="resGrade1" placeholder="الدرجة" min="0" max="100">
+                    </div>
+                    <div class="course-select">
+                        <select id="resCourse2" class="course-dropdown">
+                            <option value="">اختر المقرر 2</option>
+                        </select>
+                        <input type="number" id="resGrade2" placeholder="الدرجة" min="0" max="100">
+                    </div>
+                    <div class="course-select">
+                        <select id="resCourse3" class="course-dropdown">
+                            <option value="">اختر المقرر 3</option>
+                        </select>
+                        <input type="number" id="resGrade3" placeholder="الدرجة" min="0" max="100">
+                    </div>
+                    <div class="course-select">
+                        <select id="resCourse4" class="course-dropdown">
+                            <option value="">اختر المقرر 4</option>
+                        </select>
+                        <input type="number" id="resGrade4" placeholder="الدرجة" min="0" max="100">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="button" onclick="addResult()">إضافة نتيجة</button>
+                <button type="button" onclick="saveResults()">حفظ البيانات</button>
+                <button type="button" onclick="deleteSelectedResults()">حذف المحدد</button>
+            </div>
+            <p id="errorMessage" class="error"></p>
+        </form>
+
+        <div class="results-table">
+            <table id="resultsTable">
+                <thead>
+                    <tr>
+                        <th>تحديد</th>
+                        <th>الاسم</th>
+                        <th>الرقم الأكاديمي</th>
+                        <th>رقم الهوية</th>
+                        <th>الإيميل</th>
+                        <th>التخصص</th>
+                        <th>المستوى</th>
+                        <th>المقرر 1</th>
+                        <th>الدرجة</th>
+                        <th>المقرر 2</th>
+                        <th>الدرجة</th>
+                        <th>المقرر 3</th>
+                        <th>الدرجة</th>
+                        <th>المقرر 4</th>
+                        <th>الدرجة</th>
+                        <th>الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const allCourses = [
+            "السلامة المهنية",
+            "الرياضيات",
+            "مقدمة تطبيقات الحاسب",
+            "لغة انجليزية1",
+            "الفيزياء",
+            "التوجيه المهنى والتميز",
+            "الدراسات الاسلامية",
+            "ورش شدات حديد وتسليح"
+        ];
+
+        let results = JSON.parse(localStorage.getItem('results')) || [];
+        let students = JSON.parse(localStorage.getItem('students')) || [];
+        let editingResultId = null;
+        let selectedCourses = new Set();
+        const courseDropdowns = document.querySelectorAll('.course-dropdown');
+
+        // تهيئة القوائم المنسدلة
+        function initializeDropdowns() {
+            courseDropdowns.forEach(dropdown => {
+                updateDropdown(dropdown);
+                
+                dropdown.addEventListener('change', function() {
+                    if (this.value) {
+                        selectedCourses.add(this.value);
+                        updateAllDropdowns();
+                    }
+                });
+            });
+        }
+
+        // تحديث جميع القوائم
+        function updateAllDropdowns() {
+            courseDropdowns.forEach(dropdown => updateDropdown(dropdown));
+        }
+
+        // تحديث قائمة محددة
+        function updateDropdown(dropdown) {
+            const currentValue = dropdown.value;
+            const availableCourses = allCourses.filter(course => 
+                !selectedCourses.has(course) || course === currentValue
+            );
+
+            dropdown.innerHTML = `
+                <option value="">${dropdown.id.replace('resCourse', 'المقرر ')}</option>
+                ${availableCourses.map(course => 
+                    `<option value="${course}" ${course === currentValue ? 'selected' : ''}>
+                        ${course}
+                    </option>`
+                ).join('')}
+            `;
+        }
+
+        // إضافة/تعديل نتيجة
+        function addResult() {
+            const result = {
+                name: document.getElementById('resName').value,
+                academicNumber: document.getElementById('resAcademicNumber').value,
+                idNumber: document.getElementById('resIdNumber').value,
+                email: document.getElementById('resEmail').value,
+                specialization: document.getElementById('resSpecialization').value,
+                level: document.getElementById('resLevel').value,
+                course1: document.getElementById('resCourse1').value,
+                grade1: document.getElementById('resGrade1').value,
+                course2: document.getElementById('resCourse2').value,
+                grade2: document.getElementById('resGrade2').value,
+                course3: document.getElementById('resCourse3').value,
+                grade3: document.getElementById('resGrade3').value,
+                course4: document.getElementById('resCourse4').value,
+                grade4: document.getElementById('resGrade4').value
+            };
+
+            if (editingResultId !== null) {
+                results[editingResultId] = result;
+                editingResultId = null;
+            } else {
+                results.push(result);
+            }
+
+            renderResults();
+            clearResultForm();
+            saveResults();
+            updateAllDropdowns();
+        }
+
+        // حفظ البيانات
+        function saveResults() {
+            localStorage.setItem('results', JSON.stringify(results));
+            alert('تم الحفظ بنجاح ✓');
+        }
+
+        // عرض البيانات
+        function renderResults() {
+            const tbody = document.getElementById('resultsBody');
+            tbody.innerHTML = results.map((result, index) => `
+                <tr>
+                    <td><input type="checkbox" class="select-checkbox"></td>
+                    <td>${result.name}</td>
+                    <td>${result.academicNumber}</td>
+                    <td>${result.idNumber}</td>
+                    <td>${result.email}</td>
+                    <td>${result.specialization}</td>
+                    <td>${result.level}</td>
+                    <td>${result.course1}</td>
+                    <td>${result.grade1}</td>
+                    <td>${result.course2}</td>
+                    <td>${result.grade2}</td>
+                    <td>${result.course3}</td>
+                    <td>${result.grade3}</td>
+                    <td>${result.course4}</td>
+                    <td>${result.grade4}</td>
+                    <td>
+                        <button onclick="editResult(${index})">تعديل</button>
+                        <button onclick="deleteResult(${index})">حذف</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // تحرير النتيجة
+        function editResult(index) {
+            const result = results[index];
+            document.getElementById('resName').value = result.name;
+            document.getElementById('resAcademicNumber').value = result.academicNumber;
+            document.getElementById('resIdNumber').value = result.idNumber;
+            document.getElementById('resEmail').value = result.email;
+            document.getElementById('resSpecialization').value = result.specialization;
+            document.getElementById('resLevel').value = result.level;
+            
+            selectedCourses = new Set([
+                result.course1, 
+                result.course2, 
+                result.course3, 
+                result.course4
+            ].filter(Boolean));
+            
+            updateAllDropdowns();
+            document.getElementById('resCourse1').value = result.course1;
+            document.getElementById('resGrade1').value = result.grade1;
+            document.getElementById('resCourse2').value = result.course2;
+            document.getElementById('resGrade2').value = result.grade2;
+            document.getElementById('resCourse3').value = result.course3;
+            document.getElementById('resGrade3').value = result.grade3;
+            document.getElementById('resCourse4').value = result.course4;
+            document.getElementById('resGrade4').value = result.grade4;
+            
+            editingResultId = index;
+        }
+
+        // حذف النتيجة
+        function deleteResult(index) {
+            results.splice(index, 1);
+            renderResults();
+            saveResults();
+            updateAllDropdowns();
+        }
+
+        // حذف المحدد
+        function deleteSelectedResults() {
+            const checkboxes = document.querySelectorAll('.select-checkbox');
+            results = results.filter((_, index) => !checkboxes[index].checked);
+            renderResults();
+            saveResults();
+            updateAllDropdowns();
+        }
+
+        // مسح النموذج
+        function clearResultForm() {
+            document.getElementById('resultsForm').reset();
+            selectedCourses.clear();
+            updateAllDropdowns();
+            editingResultId = null;
+        }
+
+        // تعبئة أسماء المتدربين
+        function populateStudents() {
+            const select = document.getElementById('resName');
+            select.innerHTML = '<option value="">اختر اسم المتدرب</option>';
+            students.forEach(student => {
+                select.innerHTML += `<option value="${student.name}">${student.name}</option>`;
+            });
+        }
+
+        // تحديث الحقول عند اختيار المتدرب
+        document.getElementById('resName').addEventListener('change', function() {
+            const selectedStudent = students.find(student => student.name === this.value);
+            if (selectedStudent) {
+                document.getElementById('resAcademicNumber').value = selectedStudent.academicNumber;
+                document.getElementById('resIdNumber').value = selectedStudent.idNumber;
+                document.getElementById('resEmail').value = selectedStudent.email;
+                document.getElementById('resSpecialization').value = selectedStudent.specialization;
+                document.getElementById('resLevel').value = selectedStudent.level;
+            }
+        });
+
+        // التحميل الأولي
+        populateStudents();
+        initializeDropdowns();
+        renderResults();
+    </script>
+</body>
+</html>
